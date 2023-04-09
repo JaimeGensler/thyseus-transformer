@@ -2,9 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { thyseusPlugin } from '..';
 
 function setupPlugin(root: any) {
-	const plugin = thyseusPlugin();
-	(plugin as any).configResolved({ root } as any);
-	return plugin as { transform: (...args: any[]) => any };
+	return thyseusPlugin() as { transform: (...args: any[]) => any };
 }
 
 const cases = createTestSuite(
@@ -58,7 +56,7 @@ describe('transformer', () => {
 	for (const [testName, { root, inFiles, outFiles }] of Object.entries(
 		cases,
 	)) {
-		if (testName !== 'works_for_aliases') {
+		if (testName === 'works_for_aliases') {
 			continue;
 		}
 		it(testName.replaceAll('_', ' '), () => {
