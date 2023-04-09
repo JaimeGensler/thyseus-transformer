@@ -7,6 +7,10 @@
 This is the official transformer plugin for
 [Thyseus](https://www.github.com/JaimeGensler/thyseus).
 
+While Thyseus works without transformation, the transformer is designed to
+improve the DX of Thyseus, and to provide performance improvements - all without
+requiring you to change how you write your code!
+
 Currently, the transformer is available as a Vite plugin only - if you'd like to
 see a plugin for your bundler of choice, feel free to
 [create an issue](https://github.com/JaimeGensler/thyseus-transformer/issues/new)
