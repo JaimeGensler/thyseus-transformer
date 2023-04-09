@@ -1,0 +1,32 @@
+{
+	"name": "@thyseus/plugin-vite",
+	"version": "0.12.0",
+	"description": "Vite plugin for the official Thyseus transformer",
+	"main": "index.js",
+	"scripts": {
+		"dev": "pnpm test",
+		"test": "vitest"
+	},
+	"keywords": [
+		"typescript",
+		"ts",
+		"compiler",
+		"transformer",
+		"transpiler",
+		"thyseus",
+		"ecs"
+	],
+	"author": "Jaime Gensler",
+	"license": "MIT",
+	"dependencies": {
+		"typescript": "5.0.3"
+	},
+	"peerDependencies": {
+		"thyseus": "^0.12.0"
+	},
+	"devDependencies": {
+		"thyseus": "^0.11.0",
+		"vite": "^4.2.1",
+		"vitest": "^0.29.2"
+	}
+}
