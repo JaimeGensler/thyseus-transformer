@@ -10,7 +10,7 @@ export function thyseusTransformer(
 		let ignoreNextNode = false;
 
 		function visit(node: ts.Node): ts.Node | ts.NodeArray<any> {
-			if (isComment(node) && node.getText().includes('@thyseus-ignore')) {
+			if (isComment(node) && node.getText().includes('thyseus-ignore')) {
 				ignoreNextNode = true;
 				return node;
 			} else if (ignoreNextNode) {
