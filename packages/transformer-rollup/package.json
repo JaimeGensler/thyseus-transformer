@@ -1,5 +1,8 @@
 {
-	"description": "Official Thyseus transformer plugins",
+	"name": "@thyseus/transformer-rollup",
+	"version": "0.12.0",
+	"description": "Rollup plugin for the official Thyseus transformer",
+	"main": "index.js",
 	"scripts": {
 		"dev": "pnpm test",
 		"test": "vitest"
@@ -15,6 +18,12 @@
 	],
 	"author": "Jaime Gensler",
 	"license": "MIT",
+	"dependencies": {
+		"typescript": "5.0.3"
+	},
+	"peerDependencies": {
+		"thyseus": "^0.12.0"
+	},
 	"devDependencies": {
 		"thyseus": "^0.11.0",
 		"vite": "^4.2.1",
