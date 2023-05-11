@@ -9,10 +9,10 @@ export function thyseusPlugin(config?: TransformerOptions): Plugin {
 
 	return {
 		name: '@thyseus/transformer-rollup',
-		version: '0.12.0',
-		transform(_) {
+		version: '0.12.0-beta.3',
+		transform(file) {
 			return {
-				code: transformer(_),
+				code: transformer(file),
 				map: null,
 			};
 		},

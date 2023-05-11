@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { thyseusPlugin } from '..';
-
-function setupPlugin(root: any) {
-	return thyseusPlugin() as { transform: (...args: any[]) => any };
-}
+import { getTransformer } from '../index';
 
 const cases = createTestSuite(
 	import.meta.glob('./cases/**/*.ts', {
@@ -13,9 +9,10 @@ const cases = createTestSuite(
 );
 
 type Test = {
-	root: string;
 	inFiles: File[];
 	outFiles: File[];
+	skip: boolean;
+	only: boolean;
 };
 type File = {
 	path: string;
@@ -30,9 +27,10 @@ function createTestSuite(files: Record<string, string>) {
 			const [, , testName, inOrOut, fileName] = path.split('/');
 			if (!(testName in testSuites)) {
 				testSuites[testName] = {
-					root: '',
 					inFiles: [],
 					outFiles: [],
+					skip: testName.startsWith('skip.'),
+					only: testName.startsWith('only.'),
 				};
 			}
 			const test = testSuites[testName];
@@ -41,7 +39,6 @@ function createTestSuite(files: Record<string, string>) {
 				content,
 			};
 			if (inOrOut === 'in' && fileName === 'index.ts') {
-				test.root = file.path;
 				test.inFiles.unshift(file);
 			} else {
 				test[`${inOrOut as 'in' | 'out'}Files`].push(file);
@@ -53,18 +50,14 @@ function createTestSuite(files: Record<string, string>) {
 }
 
 describe('transformer', () => {
-	for (const [testName, { root, inFiles, outFiles }] of Object.entries(
+	for (const [testName, { inFiles, outFiles, skip, only }] of Object.entries(
 		cases,
 	)) {
-		if (testName === 'works_for_aliases') {
-			continue;
-		}
-		it(testName.replaceAll('_', ' '), () => {
-			const plugin = setupPlugin(root);
+		const itType = skip ? it.skip : only ? it.only : it;
+		itType(testName.replaceAll('_', ' '), () => {
+			const transform = getTransformer();
 			for (let i = 0; i < inFiles.length; i++) {
-				expect(
-					plugin.transform(inFiles[i].content, inFiles[i].path).code,
-				).toBe(outFiles[i].content);
+				expect(transform(inFiles[i].content)).toBe(outFiles[i].content);
 			}
 		});
 	}

@@ -5,12 +5,7 @@ import { defaultSystemParameters } from './defaultSystemParameters';
 
 type ValidSystemNode = ts.FunctionDeclaration | ts.VariableDeclaration;
 
-let typeChecker: ts.TypeChecker;
-export function transformSystemParameters(
-	node: ts.Node,
-	checker: ts.TypeChecker,
-): ts.Node {
-	typeChecker = checker;
+export function transformSystemParameters(node: ts.Node): ts.Node {
 	if (!isSystem(node)) {
 		return node;
 	}
@@ -59,9 +54,6 @@ function getSignatureDeclaration(
 		: (node.initializer as ts.SignatureDeclaration);
 }
 function isSystemParameter(node: ts.ParameterDeclaration): boolean {
-	if (ts.isTypeReferenceNode(node.type!)) {
-		typeChecker.getSymbolAtLocation(node.type!);
-	}
 	return (
 		!!node.type && getTypeNameFromNode(node.type) in defaultSystemParameters
 	);

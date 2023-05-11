@@ -1,15 +1,26 @@
 {
 	"name": "@thyseus/ts-transformer",
-	"version": "0.12.0",
+	"version": "0.12.0-beta.3",
 	"description": "Core of the official Thyseus transformer",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "pnpm test",
+		"test": "vitest"
 	},
-	"keywords": [],
-	"author": "",
+	"keywords": [
+		"typescript",
+		"transformer",
+		"transpiler",
+		"compiler"
+	],
+	"author": "Jaime Gensler",
 	"license": "ISC",
 	"dependencies": {
 		"typescript": "^5.0.4"
+	},
+	"devDependencies": {
+		"thyseus": "^0.11.0",
+		"vite": "^4.2.1",
+		"vitest": "^0.29.2"
 	}
 }
