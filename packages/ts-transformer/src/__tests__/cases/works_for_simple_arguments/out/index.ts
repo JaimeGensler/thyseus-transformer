@@ -1,4 +1,4 @@
-import { SystemResourceDescriptor } from 'thyseus/descriptors';
+import { SystemResourceDescriptor } from 'thyseus';
 class MyClass {
 }
 export function localResourceSystem(myClass: SystemRes<MyClass>) { }

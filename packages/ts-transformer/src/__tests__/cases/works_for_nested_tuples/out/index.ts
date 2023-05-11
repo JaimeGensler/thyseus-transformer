@@ -1,4 +1,4 @@
-import { QueryDescriptor, With } from 'thyseus/descriptors';
+import { QueryDescriptor, With } from 'thyseus';
 function querySystem(query: Query<[
     A,
     B

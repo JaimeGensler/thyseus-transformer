@@ -1,3 +1,3 @@
-import { WorldDescriptor } from 'thyseus/descriptors';
+import { WorldDescriptor } from 'thyseus';
 const realName = function inaccessibleName(world: World) { };
 realName.parameters = [WorldDescriptor()];

@@ -5,52 +5,52 @@ export const defaultSystemParameters: SystemParameterMap = {
 	// Parameters
 	Query: {
 		descriptorName: 'QueryDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	Res: {
 		descriptorName: 'ResourceDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	Commands: {
 		descriptorName: 'CommandsDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	World: {
 		descriptorName: 'WorldDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	SystemRes: {
 		descriptorName: 'SystemResourceDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	EventReader: {
 		descriptorName: 'EventReaderDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	EventWriter: {
 		descriptorName: 'EventWriterDescriptor',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 
 	// Modifiers
 	Mut: {
 		descriptorName: 'Mut',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	With: {
 		descriptorName: 'With',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	Without: {
 		descriptorName: 'Without',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	Or: {
 		descriptorName: 'Or',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 	Optional: {
 		descriptorName: 'Optional',
-		importPath: 'thyseus/descriptors',
+		importPath: 'thyseus',
 	},
 };
