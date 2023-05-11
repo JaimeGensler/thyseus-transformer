@@ -1,5 +1,5 @@
 {
-	"name": "@thyseus/ts-transformer",
+	"name": "@thyseus/typescript-transformer",
 	"version": "0.12.0-beta.3",
 	"description": "Core of the official Thyseus transformer",
 	"author": "Jaime Gensler",
