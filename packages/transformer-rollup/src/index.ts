@@ -1,7 +1,7 @@
 import {
 	getTransformer,
 	type TransformerOptions,
-} from '../../ts-transformer/src';
+} from '@thyseus/typescript-transformer';
 import type { Plugin } from 'vite';
 
 export function thyseusPlugin(config?: TransformerOptions): Plugin {

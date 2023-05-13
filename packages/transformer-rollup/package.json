@@ -1,32 +1,53 @@
 {
 	"name": "@thyseus/transformer-rollup",
-	"version": "0.12.0",
+	"version": "0.12.0-beta.3",
 	"description": "Rollup plugin for the official Thyseus transformer",
-	"main": "index.js",
-	"scripts": {
-		"dev": "pnpm test",
-		"test": "vitest"
-	},
-	"keywords": [
-		"typescript",
-		"ts",
-		"compiler",
-		"transformer",
-		"transpiler",
-		"thyseus",
-		"ecs"
-	],
 	"author": "Jaime Gensler",
 	"license": "MIT",
-	"dependencies": {
-		"typescript": "5.0.3"
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JaimeGensler/thyseus-transformer"
+	},
+	"keywords": [
+		"thyseus",
+		"typescript",
+		"transformer",
+		"transpiler",
+		"compiler",
+		"rollup"
+	],
+	"files": [
+		"dist"
+	],
+	"module": "./dist/index.js",
+	"main": "./dist/index.cjs",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		"./src/*": "./src/*",
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"scripts": {
+		"dev": "pnpm test",
+		"test": "vitest",
+		"build": "vite build && tsup src/index.ts --dts-only"
 	},
 	"peerDependencies": {
-		"thyseus": "^0.12.0"
+		"thyseus": "0.12.0-beta.3"
 	},
 	"devDependencies": {
 		"thyseus": "^0.11.0",
+		"tsup": "^6.7.0",
+		"typescript": "^5.0.4",
 		"vite": "^4.2.1",
 		"vitest": "^0.29.2"
+	},
+	"dependencies": {
+		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.3"
 	}
 }
