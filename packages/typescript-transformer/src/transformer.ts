@@ -1,7 +1,10 @@
 import ts from 'typescript';
 import { transformSystemParameters } from './systemParameters';
 import { consumeImports } from './utils/modifyImports';
-import { consumeStatements } from './utils/modifyStatements';
+import {
+	consumeStatements,
+	setStatementContext,
+} from './utils/modifyStatements';
 import { shouldIgnoreNode } from './shouldIgnoreNode';
 
 export function thyseusTransformer(
@@ -12,13 +15,15 @@ export function thyseusTransformer(
 			if (shouldIgnoreNode(node)) {
 				return node;
 			}
+			setStatementContext(node);
 
 			const result = ts.visitEachChild(
 				transformSystemParameters(node),
 				visit,
 				context,
 			);
-			return ts.isStatement(result) ? consumeStatements(result) : result;
+
+			return consumeStatements(result);
 		}
 
 		return consumeImports(ts.visitNode(file, visit)! as ts.SourceFile);

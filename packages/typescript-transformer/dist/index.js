@@ -1,27 +1,33 @@
 import e from "typescript";
-const u = [];
-function N(t) {
-  u.push(t);
-}
+const p = /* @__PURE__ */ new Map();
+let o = 0;
 function S(t) {
-  const r = [t, ...u];
-  return u.length = 0, e.factory.createNodeArray(r);
+  e.isStatement(t) && o++;
 }
-const m = /* @__PURE__ */ new Map();
-function I(t, r) {
-  m.has(t) || m.set(t, /* @__PURE__ */ new Set()), m.get(t).add(r);
+function x(t) {
+  p.has(o) || p.set(o, []), p.get(o).push(t);
 }
-function T(t) {
+function I(t) {
+  if (!e.isStatement(t))
+    return t;
+  const r = p.get(o) ?? [];
+  return p.delete(o), o--, r.length === 0 ? t : e.factory.createNodeArray([t, ...r]);
+}
+const u = /* @__PURE__ */ new Map();
+function T(t, r) {
+  u.has(t) || u.set(t, /* @__PURE__ */ new Set()), u.get(t).add(r);
+}
+function D(t) {
   const r = [], i = /* @__PURE__ */ new Set();
   for (const s of t.statements)
     e.isImportDeclaration(s) && i.add(s.moduleSpecifier.getText(t)), r.push(s);
-  for (const [s, a] of m) {
-    const o = Array.from(
+  for (const [s, a] of u) {
+    const n = Array.from(
       a,
-      (n) => e.factory.createImportSpecifier(
+      (c) => e.factory.createImportSpecifier(
         !1,
         void 0,
-        e.factory.createIdentifier(n)
+        e.factory.createIdentifier(c)
       )
     );
     if (!i.has(`'${s}'`))
@@ -31,37 +37,37 @@ function T(t) {
           e.factory.createImportClause(
             !1,
             void 0,
-            e.factory.createNamedImports(o)
+            e.factory.createNamedImports(n)
           ),
           e.factory.createStringLiteral(s, !0)
         )
       );
     else {
-      const n = r.findIndex(
-        (p) => e.isImportDeclaration(p) && p.moduleSpecifier.getText(t) === `'${s}'`
-      ), c = r[n], h = [
-        ...((c.importClause?.namedBindings).elements ?? []).filter(
-          (p) => !a.has(p.name.getText())
+      const c = r.findIndex(
+        (f) => e.isImportDeclaration(f) && f.moduleSpecifier.getText(t) === `'${s}'`
+      ), m = r[c], g = [
+        ...((m.importClause?.namedBindings).elements ?? []).filter(
+          (f) => !a.has(f.name.getText())
         ),
-        ...o
-      ], g = e.factory.updateImportClause(
-        c.importClause,
+        ...n
+      ], N = e.factory.updateImportClause(
+        m.importClause,
         !1,
         void 0,
-        e.factory.createNamedImports(h)
+        e.factory.createNamedImports(g)
       );
-      r[n] = e.factory.updateImportDeclaration(
-        c,
-        c.modifiers,
-        g,
-        c.moduleSpecifier,
-        c.assertClause
+      r[c] = e.factory.updateImportDeclaration(
+        m,
+        m.modifiers,
+        N,
+        m.moduleSpecifier,
+        m.assertClause
       );
     }
   }
-  return m.clear(), e.factory.updateSourceFile(t, r);
+  return u.clear(), e.factory.updateSourceFile(t, r);
 }
-const l = {
+const y = {
   // Parameters
   Query: {
     descriptorName: "QueryDescriptor",
@@ -113,8 +119,8 @@ const l = {
     importPath: "thyseus"
   }
 };
-function x(t) {
-  return D(t) && N(
+function P(t) {
+  return C(t) && x(
     e.factory.createExpressionStatement(
       e.factory.createAssignment(
         e.factory.createPropertyAccessExpression(
@@ -123,71 +129,72 @@ function x(t) {
         ),
         e.factory.createArrayLiteralExpression(
           d(t).parameters.map(
-            (r) => f(r.type)
+            (r) => l(r.type)
           )
         )
       )
     )
   ), t;
 }
-function D(t) {
+function C(t) {
   if (!(e.isFunctionDeclaration(t) || e.isVariableDeclaration(t) && t.initializer && (e.isArrowFunction(t.initializer) || e.isFunctionExpression(t.initializer))))
     return !1;
   const i = d(t);
-  return !!t.name && i.parameters.length > 0 && i.parameters.every(P);
+  return !!t.name && i.parameters.length > 0 && i.parameters.every(v);
 }
 function d(t) {
   return e.isFunctionDeclaration(t) ? t : t.initializer;
 }
-function P(t) {
-  return !!t.type && y(t.type) in l;
+function v(t) {
+  return !!t.type && h(t.type) in y;
 }
-function f(t) {
+function l(t) {
   if (e.isTypeReferenceNode(t)) {
-    const r = y(t), i = l[r];
-    return i ? (I(i.importPath, i.descriptorName), e.factory.createCallExpression(
+    const r = h(t), i = y[r];
+    return i ? (T(i.importPath, i.descriptorName), e.factory.createCallExpression(
       e.factory.createIdentifier(i.descriptorName),
       void 0,
-      t.typeArguments?.map(f) ?? []
+      t.typeArguments?.map(l) ?? []
     )) : e.factory.createIdentifier(r);
   } else
     return e.isTupleTypeNode(t) ? e.factory.createArrayLiteralExpression(
-      t.elements.map(f)
+      t.elements.map(l)
     ) : e.factory.createIdentifier(t.getText());
 }
-function y(t) {
+function h(t) {
   return e.isTypeReferenceNode(t) ? t.typeName.getText() : t.getText();
 }
-const v = "thyseus-ignore";
-function C(t) {
+const E = "thyseus-ignore";
+function F(t) {
   if (e.isSourceFile(t))
     return !1;
   const r = e.getLeadingCommentRanges(t.getFullText(), 0) ?? [];
   for (const { kind: i, pos: s, end: a } of r)
-    if ((i === e.SyntaxKind.SingleLineCommentTrivia || i === e.SyntaxKind.MultiLineCommentTrivia) && t.getFullText().substring(s, a).includes(v))
+    if ((i === e.SyntaxKind.SingleLineCommentTrivia || i === e.SyntaxKind.MultiLineCommentTrivia) && t.getFullText().substring(s, a).includes(E))
       return !0;
   return !1;
 }
-function E(t) {
+function A(t) {
   return (r) => (i) => {
     function s(a) {
-      if (C(a))
+      if (F(a))
         return a;
-      const o = e.visitEachChild(
-        x(a),
+      S(a);
+      const n = e.visitEachChild(
+        P(a),
         s,
         r
       );
-      return e.isStatement(o) ? S(o) : o;
+      return I(n);
     }
-    return T(e.visitNode(i, s));
+    return D(e.visitNode(i, s));
   };
 }
-function R(t) {
+function w(t) {
   const r = e.createPrinter();
   return function(s) {
     e.createProgram([""], {});
-    const a = E(), o = e.createSourceFile(
+    const a = A(), n = e.createSourceFile(
       "",
       s,
       e.ScriptTarget.Latest,
@@ -195,10 +202,10 @@ function R(t) {
       !0,
       // Need access to parent nodes from children
       e.ScriptKind.TS | e.ScriptKind.TSX
-    ), { transformed: n } = e.transform(o, [a]);
-    return r.printFile(n[0]);
+    ), { transformed: c } = e.transform(n, [a]);
+    return r.printFile(c[0]);
   };
 }
 export {
-  R as getTransformer
+  w as getTransformer
 };

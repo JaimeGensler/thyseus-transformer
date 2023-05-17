@@ -1,15 +1,32 @@
 import ts from 'typescript';
 
-const statementsToAdd: ts.Statement[] = [];
+const statementsToAdd = new Map<number, ts.Statement[]>();
+let currentContext = 0;
 
-export function addStatement(node: ts.Statement): void {
-	statementsToAdd.push(node);
+export function setStatementContext(node: ts.Node) {
+	if (ts.isStatement(node)) {
+		currentContext++;
+	}
+}
+export function addStatement(newStatement: ts.Statement): void {
+	if (!statementsToAdd.has(currentContext)) {
+		statementsToAdd.set(currentContext, []);
+	}
+	statementsToAdd.get(currentContext)!.push(newStatement);
 }
 
 export function consumeStatements(
-	statement: ts.Statement,
-): ts.NodeArray<ts.Statement> {
-	const statements = [statement, ...statementsToAdd];
-	statementsToAdd.length = 0;
-	return ts.factory.createNodeArray(statements);
+	node: ts.Node,
+): ts.Node | ts.NodeArray<ts.Statement> {
+	if (!ts.isStatement(node)) {
+		return node;
+	}
+
+	const newStatements = statementsToAdd.get(currentContext) ?? [];
+	statementsToAdd.delete(currentContext);
+	currentContext--;
+
+	return newStatements.length === 0
+		? node
+		: ts.factory.createNodeArray([node, ...newStatements]);
 }
