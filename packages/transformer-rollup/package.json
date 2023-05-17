@@ -1,6 +1,6 @@
 {
 	"name": "@thyseus/transformer-rollup",
-	"version": "0.12.0-beta.3",
+	"version": "0.12.0-beta.4",
 	"description": "Rollup plugin for the official Thyseus transformer",
 	"author": "Jaime Gensler",
 	"license": "MIT",
@@ -21,7 +21,7 @@
 		"dist"
 	],
 	"module": "./dist/index.js",
-	"main": "./dist/index.cjs",
+	"main": "./dist/index.umd.cjs",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		"./package.json": "./package.json",
@@ -41,13 +41,15 @@
 		"thyseus": "0.12.0-beta.3"
 	},
 	"devDependencies": {
+		"rollup": "^3.21.8",
 		"thyseus": "^0.11.0",
 		"tsup": "^6.7.0",
 		"typescript": "^5.0.4",
-		"vite": "^4.2.1",
+		"vite": "^4.3.6",
 		"vitest": "^0.29.2"
 	},
 	"dependencies": {
-		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.3"
+		"@rollup/pluginutils": "^5.0.2",
+		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.4"
 	}
 }

@@ -15,11 +15,14 @@ export default defineConfig({
 			name: 'thyseus_transformer_rollup',
 		},
 		rollupOptions: {
-			external: ['typescript'],
+			external: [
+				'@thyseus/typescript-transformer',
+				'@rollup/pluginutils',
+			],
 			output: {
 				exports: 'named',
 				globals: {
-					typescript: 'ts',
+					'@thyseus/typescript-transformer': 'thyseus_ts_transformer',
 				},
 			},
 		},
