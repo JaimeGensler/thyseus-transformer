@@ -42,6 +42,7 @@ function isSystem(node: ts.Node): node is ValidSystemNode {
 	const signatureDeclaration = getSignatureDeclaration(node);
 	return (
 		!!node.name &&
+		!signatureDeclaration.typeParameters &&
 		signatureDeclaration.parameters.length > 0 &&
 		signatureDeclaration.parameters.every(isSystemParameter)
 	);
@@ -61,13 +62,13 @@ function isSystemParameter(node: ts.ParameterDeclaration): boolean {
 
 function createDescriptorFromTypeNode(
 	node: ts.TypeNode,
-): ts.CallExpression | ts.Identifier | ts.ArrayLiteralExpression {
+): ts.NewExpression | ts.Identifier | ts.ArrayLiteralExpression {
 	if (ts.isTypeReferenceNode(node)) {
 		const typeName = getTypeNameFromNode(node);
 		const descriptor = defaultSystemParameters[typeName];
 		if (descriptor) {
 			addNamedImport(descriptor.importPath, descriptor.descriptorName);
-			return ts.factory.createCallExpression(
+			return ts.factory.createNewExpression(
 				ts.factory.createIdentifier(descriptor.descriptorName),
 				undefined,
 				node.typeArguments?.map(createDescriptorFromTypeNode) ?? [],

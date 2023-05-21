@@ -6,4 +6,4 @@ function querySystem(query: Query<[
     C,
     D
 ]>>) { }
-querySystem.parameters = [QueryDescriptor([A, B], With([C, D]))];
+querySystem.parameters = [new QueryDescriptor([A, B], new With([C, D]))];

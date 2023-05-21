@@ -49,8 +49,8 @@ export const defaultSystemParameters: SystemParameterMap = {
 		descriptorName: 'Or',
 		importPath: 'thyseus',
 	},
-	Optional: {
-		descriptorName: 'Optional',
-		importPath: 'thyseus',
-	},
+	// Optional: {
+	// 	descriptorName: 'Optional',
+	// 	importPath: 'thyseus',
+	// },
 };
