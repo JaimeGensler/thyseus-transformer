@@ -14,7 +14,7 @@ export function thyseusPlugin({
 	exclude,
 	...transformerConfig
 }: ThyseusPluginConfig = {}) {
-	const transformer = getTransformer(transformerConfig);
+	const transform = getTransformer(transformerConfig);
 	const filter = createFilter(include, exclude);
 
 	return {
@@ -27,7 +27,7 @@ export function thyseusPlugin({
 			}
 
 			return {
-				code: transformer(file),
+				code: transform(file),
 				map: null,
 			};
 		},
