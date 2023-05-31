@@ -1,2 +1,5 @@
 export { transformSystemParameters } from './transformSystemParameters';
-export type { SystemParameterMap } from './defaultSystemParameters';
+export {
+	defaultSystemParameters,
+	type SystemParameterMap,
+} from './defaultSystemParameters';

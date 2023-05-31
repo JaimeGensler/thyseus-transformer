@@ -1,7 +1,5 @@
 import ts from 'typescript';
-import { addStatement } from '../utils/modifyStatements';
-import { addNamedImport } from '../utils/modifyImports';
-import { defaultSystemParameters } from './defaultSystemParameters';
+import { Statements, Imports, Config } from '../utils';
 
 type ValidSystemNode = ts.FunctionDeclaration | ts.VariableDeclaration;
 
@@ -10,7 +8,7 @@ export function transformSystemParameters(node: ts.Node): ts.Node {
 		return node;
 	}
 
-	addStatement(
+	Statements.add(
 		ts.factory.createExpressionStatement(
 			ts.factory.createAssignment(
 				ts.factory.createPropertyAccessExpression(
@@ -55,19 +53,19 @@ function getSignatureDeclaration(
 		: (node.initializer as ts.SignatureDeclaration);
 }
 function isSystemParameter(node: ts.ParameterDeclaration): boolean {
-	return (
-		!!node.type && getTypeNameFromNode(node.type) in defaultSystemParameters
-	);
+	const systemParameters = Config.use('systemParameters');
+	return !!node.type && getTypeNameFromNode(node.type) in systemParameters;
 }
 
 function createDescriptorFromTypeNode(
 	node: ts.TypeNode,
 ): ts.NewExpression | ts.Identifier | ts.ArrayLiteralExpression {
+	const systemParameters = Config.use('systemParameters');
 	if (ts.isTypeReferenceNode(node)) {
 		const typeName = getTypeNameFromNode(node);
-		const descriptor = defaultSystemParameters[typeName];
+		const descriptor = systemParameters[typeName];
 		if (descriptor) {
-			addNamedImport(descriptor.importPath, descriptor.descriptorName);
+			Imports.addNamed(descriptor.importPath, descriptor.descriptorName);
 			return ts.factory.createNewExpression(
 				ts.factory.createIdentifier(descriptor.descriptorName),
 				undefined,

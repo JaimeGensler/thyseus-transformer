@@ -1,6 +1,7 @@
 import ts from 'typescript';
 
 const IGNORE_TEXT = 'thyseus-ignore';
+
 export function shouldIgnoreNode(node: ts.Node): boolean {
 	if (ts.isSourceFile(node)) {
 		return false;
