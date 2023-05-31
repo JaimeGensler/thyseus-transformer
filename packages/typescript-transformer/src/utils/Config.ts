@@ -3,11 +3,12 @@ import {
 	type SystemParameterMap,
 } from '../systemParameters';
 
-export interface TransformerConfig {
+type TransformerConfigComplete = {
 	systemParameters: SystemParameterMap;
-}
+};
+export type TransformerConfig = Partial<TransformerConfigComplete>;
 
-let config: TransformerConfig;
+let config: TransformerConfigComplete;
 export const Config = {
 	set(newConfig: Partial<TransformerConfig> | undefined) {
 		config = {
@@ -17,7 +18,9 @@ export const Config = {
 			},
 		};
 	},
-	use<T extends keyof TransformerConfig>(key: T): TransformerConfig[T] {
+	use<T extends keyof TransformerConfig>(
+		key: T,
+	): TransformerConfigComplete[T] {
 		return config[key];
 	},
 };
