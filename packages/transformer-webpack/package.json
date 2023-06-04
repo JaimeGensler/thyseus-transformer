@@ -1,6 +1,6 @@
 {
 	"name": "@thyseus/transformer-webpack",
-	"version": "0.12.0-beta.7",
+	"version": "0.12.0",
 	"description": "Webpack loader for the official Thyseus transformer",
 	"author": "Jaime Gensler",
 	"license": "MIT",
@@ -29,7 +29,7 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"require": "./dist/index.umd.cjs"
 		}
 	},
 	"scripts": {
@@ -50,7 +50,6 @@
 		"vitest": "^0.29.2"
 	},
 	"dependencies": {
-		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.7",
-		"loader-utils": "^3.2.1"
+		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.7"
 	}
 }

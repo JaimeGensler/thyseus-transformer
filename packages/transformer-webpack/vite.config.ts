@@ -15,7 +15,7 @@ export default defineConfig({
 			name: 'thyseus_transformer_rollup',
 		},
 		rollupOptions: {
-			external: ['@thyseus/typescript-transformer', 'loader-utils'],
+			external: ['@thyseus/typescript-transformer'],
 			output: {
 				exports: 'named',
 				globals: {
