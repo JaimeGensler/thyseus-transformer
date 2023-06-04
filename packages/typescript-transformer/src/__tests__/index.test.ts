@@ -49,13 +49,22 @@ function createTestSuite(files: Record<string, string>) {
 	);
 }
 
+const customConfig = {
+	MyCustomParameter: {
+		descriptorName: 'MyCustomParameterDescriptor',
+		importPath: ':somewhere',
+	},
+};
+
 describe('transformer', () => {
 	for (const [testName, { inFiles, outFiles, skip, only }] of Object.entries(
 		cases,
 	)) {
 		const itType = skip ? it.skip : only ? it.only : it;
 		itType(testName.replaceAll('_', ' '), () => {
-			const transform = getTransformer();
+			const transform = getTransformer({
+				systemParameters: customConfig,
+			});
 			for (let i = 0; i < inFiles.length; i++) {
 				expect(transform(inFiles[i].content)).toBe(outFiles[i].content);
 			}
