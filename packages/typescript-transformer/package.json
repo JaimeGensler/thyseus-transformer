@@ -1,6 +1,6 @@
 {
 	"name": "@thyseus/typescript-transformer",
-	"version": "0.12.0-beta.7",
+	"version": "0.12.0",
 	"description": "Core of the official Thyseus transformer",
 	"author": "Jaime Gensler",
 	"license": "MIT",
@@ -20,7 +20,7 @@
 		"dist"
 	],
 	"module": "./dist/index.js",
-	"main": "./dist/index.cjs",
+	"main": "./dist/index.umd.cjs",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		"./package.json": "./package.json",
@@ -28,7 +28,7 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"require": "./dist/index.umd.cjs"
 		}
 	},
 	"scripts": {
