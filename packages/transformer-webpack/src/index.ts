@@ -1,12 +1,9 @@
-import {
-	getTransformer,
-	type TransformerOptions,
-} from '../../ts-transformer/src';
+import { getOptions } from 'loader-utils';
+import { getTransformer } from '@thyseus/typescript-transformer';
 
-export default function thyseusLoader(
-	sourceCode: string,
-	options: TransformerOptions,
-) {
+export default function tsTransformLoader(this: any, source: string) {
+	const options: any = getOptions(this as any) || {};
 	const transform = getTransformer(options);
-	return transform(sourceCode);
+
+	return transform(source);
 }

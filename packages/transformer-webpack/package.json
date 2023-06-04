@@ -1,15 +1,56 @@
 {
 	"name": "@thyseus/transformer-webpack",
-	"version": "0.12.0",
-	"description": "Webpack plugin for the official Thyseus transformer",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": [],
+	"version": "0.12.0-beta.7",
+	"description": "Webpack loader for the official Thyseus transformer",
 	"author": "Jaime Gensler",
-	"license": "ISC",
+	"license": "MIT",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JaimeGensler/thyseus-transformer"
+	},
+	"keywords": [
+		"thyseus",
+		"typescript",
+		"transformer",
+		"transpiler",
+		"compiler",
+		"webpack"
+	],
+	"files": [
+		"dist"
+	],
+	"module": "./dist/index.js",
+	"main": "./dist/index.umd.cjs",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		"./src/*": "./src/*",
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"scripts": {
+		"dev": "pnpm test",
+		"test": "vitest",
+		"build": "vite build && tsup src/index.ts --dts-only"
+	},
+	"peerDependencies": {
+		"thyseus": "0.12.0-beta.7"
+	},
 	"devDependencies": {
-		"@types/webpack": "^5.28.1"
+		"@types/loader-utils": "^2.0.3",
+		"rollup": "^3.21.8",
+		"thyseus": "^0.11.0",
+		"tsup": "^6.7.0",
+		"typescript": "^5.0.4",
+		"vite": "^4.3.6",
+		"vitest": "^0.29.2"
+	},
+	"dependencies": {
+		"@thyseus/typescript-transformer": "workspace:0.12.0-beta.7",
+		"loader-utils": "^3.2.1"
 	}
 }
