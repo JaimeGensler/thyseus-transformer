@@ -1,6 +1,6 @@
 {
 	"name": "@thyseus/transformer-webpack",
-	"version": "0.12.1",
+	"version": "0.13.0",
 	"description": "Webpack loader for the official Thyseus transformer",
 	"author": "Jaime Gensler",
 	"license": "MIT",
@@ -38,7 +38,7 @@
 		"build": "vite build && tsup src/index.ts --dts-only"
 	},
 	"peerDependencies": {
-		"thyseus": "0.12.1"
+		"thyseus": "~0.13"
 	},
 	"devDependencies": {
 		"@types/loader-utils": "^2.0.3",
