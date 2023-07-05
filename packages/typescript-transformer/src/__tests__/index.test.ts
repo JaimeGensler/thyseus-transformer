@@ -1,8 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { getTransformer } from '../index';
+import prettier from 'prettier';
 
-const cases = createTestSuite(
-	import.meta.glob('./cases/**/*.ts', {
+const systemTests = createTestSuite(
+	import.meta.glob('./systems/**/*.ts', {
+		eager: true,
+		as: 'raw',
+	}),
+);
+const structTests = createTestSuite(
+	import.meta.glob('./structs/**/*.ts', {
 		eager: true,
 		as: 'raw',
 	}),
@@ -56,9 +63,9 @@ const customConfig = {
 	},
 };
 
-describe('transformer', () => {
+describe('systems', () => {
 	for (const [testName, { inFiles, outFiles, skip, only }] of Object.entries(
-		cases,
+		systemTests,
 	)) {
 		const itType = skip ? it.skip : only ? it.only : it;
 		itType(testName.replaceAll('_', ' '), () => {
@@ -67,6 +74,28 @@ describe('transformer', () => {
 			});
 			for (let i = 0; i < inFiles.length; i++) {
 				expect(transform(inFiles[i].content)).toBe(outFiles[i].content);
+			}
+		});
+	}
+});
+
+const format = (str: string) =>
+	prettier.format(str, {
+		parser: 'typescript',
+	});
+describe.only('structs', () => {
+	for (const [testName, { inFiles, outFiles, skip, only }] of Object.entries(
+		structTests,
+	)) {
+		const itType = skip ? it.skip : only ? it.only : it;
+		itType(testName.replaceAll('_', ' '), () => {
+			const transform = getTransformer({
+				systemParameters: customConfig,
+			});
+			for (let i = 0; i < inFiles.length; i++) {
+				expect(format(transform(inFiles[i].content))).toBe(
+					format(outFiles[i].content),
+				);
 			}
 		});
 	}

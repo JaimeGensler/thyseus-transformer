@@ -1,12 +1,16 @@
 import ts from 'typescript';
 import { transformSystemParameters } from './systemParameters';
+import { transformStructs } from './structs';
 import {
 	Imports,
 	Statements,
 	shouldIgnoreNode,
 	Config,
 	type TransformerConfig,
+	pipe,
 } from './utils';
+
+const visitors = pipe(transformSystemParameters, transformStructs);
 
 export function thyseusTransformer(
 	program: ts.Program,
@@ -21,11 +25,7 @@ export function thyseusTransformer(
 			}
 
 			Statements.setContext(node);
-			const result = ts.visitEachChild(
-				transformSystemParameters(node),
-				visit,
-				context,
-			);
+			const result = ts.visitEachChild(visitors(node), visit, context);
 			return Statements.consume(result);
 		}
 

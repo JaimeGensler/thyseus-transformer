@@ -1,7 +1,8 @@
 import ts from 'typescript';
 import { Statements, Imports, Config } from '../utils';
-
-type ValidSystemNode = ts.FunctionDeclaration | ts.VariableDeclaration;
+import { isSystem } from './gatekeep';
+import { getSignatureDeclaration } from './getSignatureDeclaration';
+import { getTypeNameFromNode } from './getTypeNameFromNode';
 
 export function transformSystemParameters(node: ts.Node): ts.Node {
 	if (!isSystem(node)) {
@@ -25,36 +26,6 @@ export function transformSystemParameters(node: ts.Node): ts.Node {
 	);
 
 	return node;
-}
-
-function isSystem(node: ts.Node): node is ValidSystemNode {
-	const isValidFunctionDefinition =
-		ts.isFunctionDeclaration(node) ||
-		(ts.isVariableDeclaration(node) &&
-			node.initializer &&
-			(ts.isArrowFunction(node.initializer) ||
-				ts.isFunctionExpression(node.initializer)));
-	if (!isValidFunctionDefinition) {
-		return false;
-	}
-	const signatureDeclaration = getSignatureDeclaration(node);
-	return (
-		!!node.name &&
-		!signatureDeclaration.typeParameters &&
-		signatureDeclaration.parameters.length > 0 &&
-		signatureDeclaration.parameters.every(isSystemParameter)
-	);
-}
-function getSignatureDeclaration(
-	node: ts.FunctionDeclaration | ts.VariableDeclaration,
-): ts.SignatureDeclaration {
-	return ts.isFunctionDeclaration(node)
-		? node
-		: (node.initializer as ts.SignatureDeclaration);
-}
-function isSystemParameter(node: ts.ParameterDeclaration): boolean {
-	const systemParameters = Config.use('systemParameters');
-	return !!node.type && getTypeNameFromNode(node.type) in systemParameters;
 }
 
 function createDescriptorFromTypeNode(
@@ -81,10 +52,4 @@ function createDescriptorFromTypeNode(
 	} else {
 		return ts.factory.createIdentifier(node.getText());
 	}
-}
-
-function getTypeNameFromNode(node: ts.TypeNode): string {
-	return ts.isTypeReferenceNode(node)
-		? node.typeName.getText()
-		: node.getText();
 }
